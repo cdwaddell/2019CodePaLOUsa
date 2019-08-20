@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroServiceDemo.Api.Blog", "MicroServiceDemo.Api.Blog\MicroServiceDemo.Api.Blog.csproj", "{71BF3CEF-B324-49A9-A286-7AE17BB42A1D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroServicesDemo.Core", "MicroServicesDemo.Core\MicroServicesDemo.Core.csproj", "{F5AC79C5-25F3-4354-89E2-73C10506AFDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroServiceDemo.Api.Comments", "MicroServiceDemo.Api.Comments\MicroServiceDemo.Api.Comments.csproj", "{246E5000-840E-4B5E-9D12-976706B4C70D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroServiceDemo.Api.Auth", "MicroServiceDemo.Api.Auth\MicroServiceDemo.Api.Auth.csproj", "{1C0E6D64-A4B5-4A2A-9B9C-379385E0678A}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "MicroServicesDemo.Web", "MicroServicesDemo.Web\MicroServicesDemo.Web.njsproj", "{588ADA43-45E9-4295-9D25-23986901E85B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{70537D9A-09F4-4481-AA70-22416E5E1001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroServicesDemo.Tests", "MicroServicesDemo.Tests\MicroServicesDemo.Tests.csproj", "{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71BF3CEF-B324-49A9-A286-7AE17BB42A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71BF3CEF-B324-49A9-A286-7AE17BB42A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71BF3CEF-B324-49A9-A286-7AE17BB42A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71BF3CEF-B324-49A9-A286-7AE17BB42A1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5AC79C5-25F3-4354-89E2-73C10506AFDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5AC79C5-25F3-4354-89E2-73C10506AFDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5AC79C5-25F3-4354-89E2-73C10506AFDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5AC79C5-25F3-4354-89E2-73C10506AFDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246E5000-840E-4B5E-9D12-976706B4C70D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246E5000-840E-4B5E-9D12-976706B4C70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246E5000-840E-4B5E-9D12-976706B4C70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246E5000-840E-4B5E-9D12-976706B4C70D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C0E6D64-A4B5-4A2A-9B9C-379385E0678A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C0E6D64-A4B5-4A2A-9B9C-379385E0678A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C0E6D64-A4B5-4A2A-9B9C-379385E0678A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588ADA43-45E9-4295-9D25-23986901E85B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588ADA43-45E9-4295-9D25-23986901E85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588ADA43-45E9-4295-9D25-23986901E85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588ADA43-45E9-4295-9D25-23986901E85B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70537D9A-09F4-4481-AA70-22416E5E1001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70537D9A-09F4-4481-AA70-22416E5E1001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70537D9A-09F4-4481-AA70-22416E5E1001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70537D9A-09F4-4481-AA70-22416E5E1001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2E7F4AF-8167-42B6-85ED-B2589EBE4874}
+	EndGlobalSection
+EndGlobal
