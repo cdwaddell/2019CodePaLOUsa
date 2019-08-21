@@ -2,27 +2,36 @@
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using MicroServiceDemo.Api.Blog.Abstractions;
-using MicroServiceDemo.Api.Blog.Security;
-using MicroServiceDemo.Api.Blog.Swagger;
+using MicroServicesDemo.Abstractions;
+using MicroServicesDemo.Bus;
+using MicroServicesDemo.Security;
+using MicroServicesDemo.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace MicroServiceDemo.Api.Blog.Extensions
+namespace MicroServicesDemo.Extensions
 {
     /// <summary>
     /// Service Collection(IServiceCollection) Extensions
     /// </summary>
     public static class ServicesExtensions
     {
+        public static void RegisterEventBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IEventBus, EventBusRabbitMQ>();
+            services.AddSingleton<IRabbitMQConnection, RabbitMqConnection>();
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+        }
+
         /// <summary>
         /// Add AddVersionedApiExplorer and AddApiVersioning middleware
         /// </summary>

@@ -39,6 +39,11 @@ namespace MicroServiceDemo.Api.Blog.Data
         public DbSet<FavoriteArticle> FavoriteArticles { get; set; }
 
         /// <summary>
+        /// Following Users
+        /// </summary>
+        public DbSet<FollowingUser> FollowingUsers { get; set; }
+
+        /// <summary>
         /// Entity framework scaffolding method 
         /// </summary>
         /// <param name="modelBuilder">The entity framework model builder</param>

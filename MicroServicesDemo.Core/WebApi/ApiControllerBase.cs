@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MicroServiceDemo.Api.Blog.WebApi
+namespace MicroServicesDemo.WebApi
 {    
     /// <summary>
     /// Base API controller class for auto-assigning routes

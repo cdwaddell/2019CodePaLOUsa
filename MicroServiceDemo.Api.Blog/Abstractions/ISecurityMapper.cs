@@ -1,5 +1,6 @@
 ﻿using MicroServiceDemo.Api.Blog.Data.Entities;
 using MicroServiceDemo.Api.Blog.Security;
+using MicroServicesDemo.Abstractions;
 
 namespace MicroServiceDemo.Api.Blog.Abstractions
 {

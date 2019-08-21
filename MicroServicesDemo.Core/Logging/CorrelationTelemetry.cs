@@ -3,7 +3,7 @@ using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Http;
 
-namespace MicroServiceDemo.Api.Blog.Logging
+namespace MicroServicesDemo.Logging
 {
     /// <summary>
     /// Adds telemetry to application insights

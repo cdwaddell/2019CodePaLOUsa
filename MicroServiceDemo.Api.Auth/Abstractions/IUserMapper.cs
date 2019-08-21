@@ -1,6 +1,6 @@
 ﻿using MicroServiceDemo.Api.Auth.Data.Entities;
 using MicroServiceDemo.Api.Auth.Models;
-using MicroServiceDemo.Api.Blog.Abstractions;
+using MicroServicesDemo.Abstractions;
 
 namespace MicroServiceDemo.Api.Auth.Abstractions
 {

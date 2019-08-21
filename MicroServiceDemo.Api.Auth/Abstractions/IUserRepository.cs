@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MicroServiceDemo.Api.Auth.Models;
-using MicroServiceDemo.Api.Blog.Abstractions;
+using MicroServicesDemo.Abstractions;
 
 namespace MicroServiceDemo.Api.Auth.Abstractions
 {

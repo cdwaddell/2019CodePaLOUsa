@@ -1,4 +1,4 @@
-﻿namespace MicroServiceDemo.Api.Blog.Security
+﻿namespace MicroServicesDemo.Security
 {
     /// <summary>
     /// Configuration settings for the application

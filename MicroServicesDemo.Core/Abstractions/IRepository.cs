@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace MicroServiceDemo.Api.Blog.Abstractions
+namespace MicroServicesDemo.Abstractions
 {
     /// <summary>
     /// A Repository for housing <typeparamref name="T"></typeparamref> entities

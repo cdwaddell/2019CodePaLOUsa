@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MicroServiceDemo.Api.Blog.Security;
+using MicroServicesDemo.Abstractions;
 
 namespace MicroServiceDemo.Api.Blog.Abstractions
 {

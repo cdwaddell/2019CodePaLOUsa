@@ -1,4 +1,4 @@
-﻿namespace MicroServiceDemo.Api.Blog.Logging
+﻿namespace MicroServicesDemo.Logging
 {
     /// <summary>
     /// Data concerning the current application

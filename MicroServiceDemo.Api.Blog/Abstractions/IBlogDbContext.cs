@@ -31,6 +31,11 @@ namespace MicroServiceDemo.Api.Blog.Abstractions
         DbSet<FavoriteArticle> FavoriteArticles { get; set; }
 
         /// <summary>
+        /// Following Users
+        /// </summary>
+        DbSet<FollowingUser> FollowingUsers { get; set; }
+
+        /// <summary>
         /// Save changes to the database
         /// </summary>
         /// <param name="cancellationToken"></param>

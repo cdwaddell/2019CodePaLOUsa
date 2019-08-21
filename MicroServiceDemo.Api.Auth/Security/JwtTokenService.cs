@@ -1,12 +1,12 @@
 ﻿using MicroServiceDemo.Api.Auth.Abstractions;
 using MicroServiceDemo.Api.Auth.Models;
-using MicroServiceDemo.Api.Blog.Security;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MicroServicesDemo.Security;
 
 namespace MicroServiceDemo.Api.Auth.Security
 {

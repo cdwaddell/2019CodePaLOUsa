@@ -1,14 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using MassTransit;
-using MicroServiceDemo.Api.Auth.Abstractions;
+﻿using MicroServiceDemo.Api.Auth.Abstractions;
 using MicroServiceDemo.Api.Auth.Models;
-using MicroServiceDemo.Api.Auth.Repositories;
-using MicroServiceDemo.Api.Auth.Security;
-using MicroServiceDemo.Api.Blog.WebApi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
+using System.Threading.Tasks;
+using MicroServicesDemo.WebApi;
 
 namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
 {
@@ -31,6 +27,7 @@ namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
         {
             var userDto = await _repository.AddAsync(_userMapper.MapUser(user), cancellationToken);
             await _repository.SetPassword(userDto, user.Password, cancellationToken);
+            _tokenService.PopulateToken(userDto);
             return userDto;
         }
 

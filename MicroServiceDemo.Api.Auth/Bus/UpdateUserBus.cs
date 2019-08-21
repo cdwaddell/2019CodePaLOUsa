@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MicroServiceDemo.Api.Auth.Controllers.API.V1;
+﻿using System.Text;
 using MicroServiceDemo.Api.Auth.Models;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 
 namespace MicroServiceDemo.Api.Auth.Bus
 {
-    public class UpdateUserBus
+    public class UpdateUserBus : IUpdateUserBus
     {
         private readonly IConnection _connection;
 
@@ -22,7 +18,7 @@ namespace MicroServiceDemo.Api.Auth.Bus
         {
             using(var channel = _connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "task_queue",
+                channel.QueueDeclare(queue: "UserQueue",
                     durable: true,
                     exclusive: false,
                     autoDelete: false,
@@ -35,7 +31,7 @@ namespace MicroServiceDemo.Api.Auth.Bus
                 properties.Persistent = true;
 
                 channel.BasicPublish(exchange: "",
-                    routingKey: "task_queue",
+                    routingKey: "UserQueue",
                     basicProperties: properties,
                     body: body);
             }

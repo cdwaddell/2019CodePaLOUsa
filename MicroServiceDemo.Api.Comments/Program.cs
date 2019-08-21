@@ -1,6 +1,6 @@
-﻿using MicroServiceDemo.Api.Blog.Extensions;
-using MicroServiceDemo.Api.Comments.Data;
+﻿using MicroServiceDemo.Api.Comments.Data;
 using MicroServicesDemo;
+using MicroServicesDemo.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;

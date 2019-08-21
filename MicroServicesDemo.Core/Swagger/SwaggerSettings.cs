@@ -1,6 +1,6 @@
 ﻿using Swashbuckle.AspNetCore.Swagger;
 
-namespace MicroServiceDemo.Api.Blog.Swagger
+namespace MicroServicesDemo.Swagger
 {
     /// <summary>
     /// Swagger Configuration

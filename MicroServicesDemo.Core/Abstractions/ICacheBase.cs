@@ -1,4 +1,4 @@
-﻿namespace MicroServiceDemo.Api.Blog.Abstractions
+﻿namespace MicroServicesDemo.Abstractions
 {
     /// <summary>
     /// Flags a class as belonging to a cache family of classes

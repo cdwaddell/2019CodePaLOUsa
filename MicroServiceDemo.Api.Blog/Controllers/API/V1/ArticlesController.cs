@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MicroServiceDemo.Api.Blog.Abstractions;
 using MicroServiceDemo.Api.Blog.Models;
-using MicroServiceDemo.Api.Blog.WebApi;
+using MicroServicesDemo.WebApi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,6 +45,34 @@ namespace MicroServiceDemo.Api.Blog.Controllers.API.V1
             return Ok();
         }
 
+        [HttpPost("{slug}/favorite")]
+        public async Task<ActionResult<ArticleDto>> AddFavorite([FromRoute] string slug)
+        {
+            var currentUser = User.FindFirst("sub")?.Value;
+            if (currentUser == null)
+                return Forbid();
+
+            var article = await _repository.GetByKeyAsync(slug);
+            await _repository.AddFavorite(article, currentUser);
+
+            article.Favorited = true;
+            return article;
+        }
+
+        [HttpDelete("{slug}/favorite")]
+        public async Task<ActionResult<ArticleDto>> RemoveFavorite([FromRoute] string slug)
+        {
+            var currentUser = User.FindFirst("sub")?.Value;
+            if (currentUser == null)
+                return Forbid();
+
+            var article = await _repository.GetByKeyAsync(slug);
+            await _repository.RemoveFavorite(article, currentUser);
+
+            article.Favorited = false;
+            return article;
+        }
+
         /// <summary>
         /// Create a new article
         /// </summary>
@@ -52,7 +80,7 @@ namespace MicroServiceDemo.Api.Blog.Controllers.API.V1
         /// <param name="cancellationToken"></param>
         /// <returns>The new article</returns>
         [HttpPut]
-        public async Task<ActionResult<ArticleDto>> PutNew([FromBody]ArticleDto article, CancellationToken cancellationToken)
+        public async Task<ActionResult<ArticleDto>> PutNew([FromBody]ArticlePostDto article, CancellationToken cancellationToken)
         {
             return await _repository.AddAsync(article, cancellationToken);
         }
@@ -66,7 +94,7 @@ namespace MicroServiceDemo.Api.Blog.Controllers.API.V1
         /// <returns>The updated article</returns>
         [HttpPut("{slug}")]
         [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<ArticleDto>> PutUpdate([FromRoute]string slug, [FromBody]ArticleDto article, CancellationToken cancellationToken)
+        public async Task<ActionResult<ArticleDto>> PutUpdate([FromRoute]string slug, [FromBody]ArticlePostDto article, CancellationToken cancellationToken)
         {
             var existingArticle = await _repository.UpdateAsync(slug, article, cancellationToken);
             

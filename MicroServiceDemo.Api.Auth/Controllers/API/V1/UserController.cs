@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MicroServiceDemo.Api.Auth.Abstractions;
+using MicroServiceDemo.Api.Auth.Bus;
+using MicroServiceDemo.Api.Auth.Models;
+using MicroServicesDemo.WebApi;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
-using MassTransit;
-using MicroServiceDemo.Api.Auth.Abstractions;
-using MicroServiceDemo.Api.Auth.Models;
-using MicroServiceDemo.Api.Auth.Repositories;
-using MicroServiceDemo.Api.Blog.WebApi;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
 {
     public class UserController : ApiControllerBase
     {
-        private readonly IBus _bus;
+        private readonly IUpdateUserBus _bus;
         private readonly IUserMapper _mapper;
         private readonly IUserRepository _repository;
         private readonly IJwtTokenService _tokenService;
 
-        public UserController(IBus bus, IUserMapper mapper, IUserRepository repository, IJwtTokenService tokenService)
+        public UserController(
+            //IBus bus, //Mass Transit
+            //IEventBus bus, //Custom Polly wrapper
+            IUpdateUserBus bus,
+            IUserMapper mapper, 
+            IUserRepository repository, 
+            IJwtTokenService tokenService)
         {
             _bus = bus;
             _mapper = mapper;
@@ -51,6 +53,8 @@ namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
             updated = await _repository.UpdateAsync(user.Email, updated, cancellationToken);
             await _repository.SetPassword(updated, user.Password, cancellationToken);
             _tokenService.PopulateToken(updated);
+
+            _bus.SendUpdate(updated);
 
             return updated;
         }

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MicroServiceDemo.Api.Blog.Data.Entities;
 using MicroServiceDemo.Api.Blog.Models;
+using MicroServicesDemo.Abstractions;
 
 namespace MicroServiceDemo.Api.Blog.Abstractions
 {
@@ -11,6 +12,14 @@ namespace MicroServiceDemo.Api.Blog.Abstractions
     /// </summary>
     public interface IDtoMapper : IMapperBase
     {
+        /// <summary>
+        /// Map an article API post object onto an article API object
+        /// </summary>
+        /// <param name="src">The article API object</param>
+        /// <param name="dst">The article API entity</param>
+        /// <returns></returns>
+        ArticleDto MapArticle(ArticlePostDto src, ArticleDto dst = null);
+
         /// <summary>
         /// Map an article API object onto an article EF entity
         /// </summary>

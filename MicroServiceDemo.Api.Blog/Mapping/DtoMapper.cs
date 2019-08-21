@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,23 @@ namespace MicroServiceDemo.Api.Blog.Mapping
             _context = context;
             _currentUserAccessor = currentUserAccessor;
         }
-        
+
+        /// <inheritdoc />
+        public ArticleDto MapArticle(ArticlePostDto src, ArticleDto dst = null)
+        {
+            if(dst == null)
+                dst = new ArticleDto();
+
+            dst.Slug = src.Slug;
+            dst.UpdatedAt = DateTime.UtcNow;
+            dst.TagList = src.TagList.ToArray();
+            dst.Body = src.Body;
+            dst.Description = src.Description;
+            dst.Title = src.Title;
+
+            return dst;
+        }
+
         /// <inheritdoc />
         public async Task<Article> MapArticleAsync(ArticleDto src, Article dst, CancellationToken cancellationToken = new CancellationToken())
         {

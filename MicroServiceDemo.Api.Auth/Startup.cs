@@ -1,14 +1,15 @@
 ﻿using System;
 using MassTransit;
 using MicroServiceDemo.Api.Auth.Abstractions;
+using MicroServiceDemo.Api.Auth.Bus;
 using MicroServiceDemo.Api.Auth.Controllers.API.V1;
 using MicroServiceDemo.Api.Auth.Data;
 using MicroServiceDemo.Api.Auth.Models;
 using MicroServiceDemo.Api.Auth.Security;
-using MicroServiceDemo.Api.Blog.Extensions;
-using MicroServiceDemo.Api.Blog.Logging;
-using MicroServiceDemo.Api.Blog.Security;
-using MicroServiceDemo.Api.Blog.Swagger;
+using MicroServicesDemo.Extensions;
+using MicroServicesDemo.Logging;
+using MicroServicesDemo.Security;
+using MicroServicesDemo.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,7 @@ namespace MicroServiceDemo.Api.Auth
             services.AddEntityFramework<IBlogDbContext, BlogDbContext>(Configuration);
             services.AddSingleton<IJwtTokenService, JwtTokenService>();
             services.AddSingleton<IPasswordHashService, PasswordHashService>();
+            services.AddSingleton<IUpdateUserBus, UpdateUserBus>();
 
             services.Configure<SwaggerSettings>(Configuration.GetSection(nameof(SwaggerSettings)));
             services.Configure<ApplicationMetadata>(Configuration.GetSection(nameof(ApplicationMetadata)));
@@ -66,6 +68,7 @@ namespace MicroServiceDemo.Api.Auth
             var appSettingsSection = Configuration.GetSection(nameof(AppSettings));
             services.Configure<AppSettings>(appSettingsSection);
             services.Configure<RabbitMqSettings>(Configuration.GetSection(nameof(RabbitMqSettings)));
+            services.RegisterEventBus(Configuration);
 
             services.AddSingleton(c =>
             {
@@ -94,10 +97,6 @@ namespace MicroServiceDemo.Api.Auth
                 var factory = c.GetService<ConnectionFactory>();
                 return factory.CreateConnection();
             });
-
-            //using RabbitMQ.Client.Core.DependencyInjection
-            //var rabbitMqSection = Configuration.GetSection("RabbitMq");
-            //services.AddRabbitMqClient(rabbitMqSection);
 
             //using MassTransit
             //services.AddMassTransit(x =>

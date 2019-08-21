@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace MicroServiceDemo.Api.Blog.Swagger
+namespace MicroServicesDemo.Swagger
 {
     /// <inheritdoc />
     /// <summary>

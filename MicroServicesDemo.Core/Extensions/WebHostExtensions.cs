@@ -1,11 +1,10 @@
 ﻿using System.Linq;
-using MicroServicesDemo;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
-namespace MicroServiceDemo.Api.Blog.Extensions
+namespace MicroServicesDemo.Extensions
 {
     /// <summary>
     /// Extensions to the Asp.Net web host used to start your hosting environment

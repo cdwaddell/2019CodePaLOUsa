@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 
-namespace MicroServiceDemo.Api.Blog.Extensions
+namespace MicroServicesDemo.Extensions
 {
     /// <summary>
     /// Extending Swagger services

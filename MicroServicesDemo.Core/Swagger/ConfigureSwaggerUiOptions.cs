@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace MicroServiceDemo.Api.Blog.Swagger
+namespace MicroServicesDemo.Swagger
 {
     /// <inheritdoc cref="SwaggerUIOptions"/>>
     public sealed class ConfigureSwaggerUiOptions : IConfigureOptions<SwaggerUIOptions>

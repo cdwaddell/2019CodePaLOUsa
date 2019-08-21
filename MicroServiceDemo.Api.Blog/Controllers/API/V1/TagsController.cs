@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MicroServiceDemo.Api.Blog.Abstractions;
 using MicroServiceDemo.Api.Blog.Data;
 using MicroServiceDemo.Api.Blog.Models;
-using MicroServiceDemo.Api.Blog.WebApi;
+using MicroServicesDemo.WebApi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

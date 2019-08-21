@@ -1,4 +1,4 @@
-﻿namespace MicroServiceDemo.Api.Blog.Abstractions
+﻿namespace MicroServicesDemo.Abstractions
 {
     /// <summary>
     /// A Repository for housing entities

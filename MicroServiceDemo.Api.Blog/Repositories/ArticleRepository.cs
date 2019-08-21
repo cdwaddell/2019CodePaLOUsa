@@ -32,6 +32,51 @@ namespace MicroServiceDemo.Api.Blog.Repositories
             _mapper = mapper;
             _userAccessor = userAccessor;
         }
+
+        /// <inheritdoc cref="IArticleRepository"/>>
+        public async Task AddFavorite(ArticleDto article, string currentUser, CancellationToken cancellationToken = new CancellationToken())
+        {
+            var currentFavorite = _context.FavoriteArticles
+                .SingleOrDefaultAsync(x => 
+                x.User.Username == currentUser &&
+                x.Article.Slug == article.Slug, 
+                cancellationToken);
+
+            if (currentFavorite == null)
+            {
+                var articleId = (await _context.Articles
+                    .Where(x => x.Slug == article.Slug)
+                    .SingleAsync(cancellationToken)).Id;
+
+                var userId = (await _context.Users
+                    .Where(x => x.Username == currentUser)
+                    .SingleAsync(cancellationToken)).Id;
+
+                _context.FavoriteArticles.Add(new FavoriteArticle
+                {
+                    ArticleId = articleId,
+                    UserId = userId
+                });
+
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
+
+        /// <inheritdoc cref="IArticleRepository"/>>
+        public async Task RemoveFavorite(ArticleDto article, string currentUser, CancellationToken cancellationToken = new CancellationToken())
+        {
+            var currentFavorite = await _context.FavoriteArticles
+                .SingleOrDefaultAsync(x => 
+                        x.User.Username == currentUser &&
+                        x.Article.Slug == article.Slug, 
+                    cancellationToken);
+
+            if (currentFavorite != null)
+            {
+                _context.FavoriteArticles.Remove(currentFavorite);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+        }
         
         /// <inheritdoc cref="IArticleRepository"/>>
         public async Task<bool> DeleteByKeyAsync(string key, CancellationToken cancellationToken = new CancellationToken())
@@ -72,6 +117,20 @@ namespace MicroServiceDemo.Api.Blog.Repositories
             await _context.SaveChangesAsync(cancellationToken);
             
             return await _mapper.MapArticleAsync(article, cancellationToken);
+        }
+        
+        /// <inheritdoc cref="IArticleRepository"/>>
+        public async Task<ArticleDto> AddAsync(ArticlePostDto entity, CancellationToken cancellationToken = new CancellationToken())
+        {
+            var article = _mapper.MapArticle(entity);
+            return await AddAsync(article, cancellationToken);
+        }
+        
+        /// <inheritdoc cref="IArticleRepository"/>>
+        public async Task<ArticleDto> UpdateAsync(string key, ArticlePostDto entity, CancellationToken cancellationToken = new CancellationToken())
+        {
+            var article = _mapper.MapArticle(entity);
+            return await UpdateAsync(key, article, cancellationToken);
         }
         
         /// <inheritdoc cref="IArticleRepository"/>>

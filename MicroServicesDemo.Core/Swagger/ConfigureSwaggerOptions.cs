@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace MicroServiceDemo.Api.Blog.Swagger
+namespace MicroServicesDemo.Swagger
 {
     /// <inheritdoc />
     public sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerOptions>

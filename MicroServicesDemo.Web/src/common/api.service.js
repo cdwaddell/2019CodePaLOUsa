@@ -13,7 +13,7 @@ export const ApiService = {
   },
 
   setHeader() {
-    var token = JwtService.getToken()
+    var token = JwtService.getToken();
     ArticlesService.instance.defaults.headers.common[
       "Authorization"
     ] = `Token ${token}`;

@@ -1,9 +1,12 @@
-﻿using MicroServiceDemo.Api.Blog.Abstractions;
+﻿using System;
+using MicroServiceDemo.Api.Blog.Abstractions;
 using MicroServiceDemo.Api.Blog.Data;
-using MicroServiceDemo.Api.Blog.Extensions;
-using MicroServiceDemo.Api.Blog.Logging;
+using MicroServiceDemo.Api.Blog.Models;
 using MicroServiceDemo.Api.Blog.Security;
-using MicroServiceDemo.Api.Blog.Swagger;
+using MicroServicesDemo.Extensions;
+using MicroServicesDemo.Logging;
+using MicroServicesDemo.Security;
+using MicroServicesDemo.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using RabbitMQ.Client;
 
 namespace MicroServiceDemo.Api.Blog
 {
@@ -55,6 +59,36 @@ namespace MicroServiceDemo.Api.Blog
 
             services.Configure<SwaggerSettings>(Configuration.GetSection(nameof(SwaggerSettings)));
             services.Configure<ApplicationMetadata>(Configuration.GetSection(nameof(ApplicationMetadata)));
+            services.Configure<RabbitMqSettings>(Configuration.GetSection(nameof(RabbitMqSettings)));
+            services.RegisterEventBus(Configuration);
+
+            services.AddSingleton(c =>
+            {
+                var settings = c.GetService<RabbitMqSettings>();
+
+                var factory = new ConnectionFactory
+                {
+                    HostName = settings.HostName,
+                    Port = settings.Port,
+                    UserName = settings.UserName,
+                    Password = settings.Password,
+
+                    AutomaticRecoveryEnabled = true,
+                    RequestedConnectionTimeout = 5000,
+                    TopologyRecoveryEnabled = true,
+                    SocketReadTimeout = 10000,
+                    SocketWriteTimeout = 10000,
+                    ContinuationTimeout = TimeSpan.FromSeconds(10)
+                };
+
+                return factory;
+            });
+
+            services.AddSingleton(c =>
+            {
+                var factory = c.GetService<ConnectionFactory>();
+                return factory.CreateConnection();
+            });
 
             var appSettingsSection = Configuration.GetSection(nameof(AppSettings));
             services.Configure<AppSettings>(appSettingsSection);

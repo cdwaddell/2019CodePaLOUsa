@@ -1,9 +1,9 @@
-﻿using MicroServiceDemo.Api.Blog.Extensions;
-using MicroServiceDemo.Api.Blog.Logging;
-using MicroServiceDemo.Api.Blog.Security;
-using MicroServiceDemo.Api.Blog.Swagger;
-using MicroServiceDemo.Api.Comments.Abstractions;
+﻿using MicroServiceDemo.Api.Comments.Abstractions;
 using MicroServiceDemo.Api.Comments.Data;
+using MicroServicesDemo.Extensions;
+using MicroServicesDemo.Logging;
+using MicroServicesDemo.Security;
+using MicroServicesDemo.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

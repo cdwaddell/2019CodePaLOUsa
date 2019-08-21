@@ -67,7 +67,6 @@ namespace MicroServicesDemo.Tests
             services.AddHttpClient(HttpClientNames.LocalHost, client =>
                 {
                     client.BaseAddress = new Uri("http://localhost:5337/");
-                    client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
                     client.Timeout = TimeSpan.FromSeconds(60); // Overall timeout across all tries
                 })
                 .AddPolicyHandler(retryPolicy)
