@@ -1,5 +1,10 @@
-﻿using MicroServiceDemo.Api.Auth.Abstractions;
+﻿using System;
+using MassTransit;
+using MicroServiceDemo.Api.Auth.Abstractions;
+using MicroServiceDemo.Api.Auth.Controllers.API.V1;
 using MicroServiceDemo.Api.Auth.Data;
+using MicroServiceDemo.Api.Auth.Models;
+using MicroServiceDemo.Api.Auth.Security;
 using MicroServiceDemo.Api.Blog.Extensions;
 using MicroServiceDemo.Api.Blog.Logging;
 using MicroServiceDemo.Api.Blog.Security;
@@ -11,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Core.DependencyInjection;
 
 namespace MicroServiceDemo.Api.Auth
 {
@@ -50,12 +57,77 @@ namespace MicroServiceDemo.Api.Auth
             services.AddApplicationInsightsTelemetry();
 
             services.AddEntityFramework<IBlogDbContext, BlogDbContext>(Configuration);
+            services.AddSingleton<IJwtTokenService, JwtTokenService>();
+            services.AddSingleton<IPasswordHashService, PasswordHashService>();
 
             services.Configure<SwaggerSettings>(Configuration.GetSection(nameof(SwaggerSettings)));
             services.Configure<ApplicationMetadata>(Configuration.GetSection(nameof(ApplicationMetadata)));
 
             var appSettingsSection = Configuration.GetSection(nameof(AppSettings));
             services.Configure<AppSettings>(appSettingsSection);
+            services.Configure<RabbitMqSettings>(Configuration.GetSection(nameof(RabbitMqSettings)));
+
+            services.AddSingleton(c =>
+            {
+                var settings = c.GetService<RabbitMqSettings>();
+
+                var factory = new ConnectionFactory
+                {
+                    HostName = settings.HostName,
+                    Port = settings.Port,
+                    UserName = settings.UserName,
+                    Password = settings.Password,
+
+                    AutomaticRecoveryEnabled = true,
+                    RequestedConnectionTimeout = 5000,
+                    TopologyRecoveryEnabled = true,
+                    SocketReadTimeout = 10000,
+                    SocketWriteTimeout = 10000,
+                    ContinuationTimeout = TimeSpan.FromSeconds(10)
+                };
+
+                return factory;
+            });
+
+            services.AddSingleton(c =>
+            {
+                var factory = c.GetService<ConnectionFactory>();
+                return factory.CreateConnection();
+            });
+
+            //using RabbitMQ.Client.Core.DependencyInjection
+            //var rabbitMqSection = Configuration.GetSection("RabbitMq");
+            //services.AddRabbitMqClient(rabbitMqSection);
+
+            //using MassTransit
+            //services.AddMassTransit(x =>
+            //{
+            //    //x.AddBus(provider => Bus.Factory.CreateUsingAzureServiceBus(x =>
+            //    //{
+            //    //    var host = x.Host(serviceUri, h =>
+            //    //    {
+            //    //        h.SharedAccessSignature(s =>
+            //    //        {
+            //    //            s.KeyName = "keyName";
+            //    //            s.SharedAccessKey = "key";
+            //    //            s.TokenTimeToLive = TimeSpan.FromDays(1);
+            //    //            s.TokenScope = TokenScope.Namespace;
+            //    //        });
+            //    //    });
+            //    //});
+
+            //    //x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+            //    //{
+            //    //    cfg.Host(new Uri($"rabbitmq://{Configuration["RabbitMQHostName"]}"), hostConfig =>
+            //    //    {
+            //    //        hostConfig.Username("guest");
+            //    //        hostConfig.Password("guest");
+            //    //    });
+
+            //    //    cfg.SendTopology
+            //    //    cfg.UseMessageRetry(configurator => configurator.SetRetryPolicy());
+            //    //}));
+            //});
 
             services
                 .AddJwtAuthentication(appSettingsSection)

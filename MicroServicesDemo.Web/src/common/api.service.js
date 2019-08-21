@@ -166,15 +166,15 @@ export const AuthService = {
     });
     axiosRetry(this.instance, { retries: 3, shouldResetTimeout: true, retryDelay: axiosRetry.exponentialDelay });
   },
-
+  
+  setHeader() {
+    return ApiService.setHeader(this.instance);
+  },
   login(credentials) {
     return ApiService.post(this.instance, "users/login", { user: credentials });
   },
   users(credentials) {
     return ApiService.post(this.instance, "users", { user: credentials });
-  },
-  setHeader() {
-    return ApiService.setHeader(this.instance);
   },
   getUser() {
     return ApiService.get(this.instance, "user");

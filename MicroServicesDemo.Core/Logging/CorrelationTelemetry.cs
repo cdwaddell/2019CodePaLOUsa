@@ -1,4 +1,5 @@
-﻿using Microsoft.ApplicationInsights.Channel;
+﻿using System.Reflection;
+using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Http;
 
@@ -26,7 +27,7 @@ namespace MicroServiceDemo.Api.Blog.Logging
         /// <param name="telemetry"></param>
         public void Initialize(ITelemetry telemetry)
         {
-            telemetry.Context.GlobalProperties.Add("ApplicationName", "ApplicationInsightsTester");
+            telemetry.Context.GlobalProperties.Add("ApplicationName", Assembly.GetEntryAssembly()?.GetName().Name);
         }
     }
 }

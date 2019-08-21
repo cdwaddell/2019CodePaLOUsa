@@ -24,6 +24,7 @@ services:
       dockerfile: MicroServiceDemo.Api.Auth/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_RabbitMq__HostName=rabbitmq
     ports:
       - "5003:80"
 
@@ -34,3 +35,10 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "14433:1433"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    hostname: rabbitmq

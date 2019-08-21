@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using MicroServiceDemo.Api.Auth.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicroServiceDemo.Api.Auth.Abstractions
 {
@@ -14,5 +16,10 @@ namespace MicroServiceDemo.Api.Auth.Abstractions
         /// <param name="cancellationToken"></param>
         /// <returns>The number of rows affected</returns>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Users assigned to the blog systems
+        /// </summary>
+        DbSet<User> Users { get; set; }
     }
 }

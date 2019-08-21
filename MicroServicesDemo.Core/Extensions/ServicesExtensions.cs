@@ -101,7 +101,8 @@ namespace MicroServiceDemo.Api.Blog.Extensions
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
+                        ValidIssuer = appSettings.Issuer,
+                        ValidateIssuer = true,
                         ValidateAudience = false
                     };
                 });

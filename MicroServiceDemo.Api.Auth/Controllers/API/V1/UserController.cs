@@ -1,79 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using MassTransit;
+using MicroServiceDemo.Api.Auth.Abstractions;
+using MicroServiceDemo.Api.Auth.Models;
+using MicroServiceDemo.Api.Auth.Repositories;
 using MicroServiceDemo.Api.Blog.WebApi;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
 {
-    public class UserContainerDto
-    {
-        public SimpleUserBaseDto User { get; set; }
-    }
-
-    public class SimpleUserBaseDto
-    {
-        public string Email { get; set; }
-        public string Username { get; set; }
-    }
-
-    public class UserLoginDto
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class UserRegisterDto : SimpleUserBaseDto
-    {
-        public string Password { get; set; }
-    }
-
-    public class UserBaseDto : SimpleUserBaseDto
-    {
-        public object Bio { get; set; }
-        public object Image { get; set; }
-    }
-
-    public class UserDto : UserBaseDto
-    {
-        public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public string Token { get; set; }
-    }
-
-    public class UserUpdateDto : UserBaseDto
-    {
-        public string Password { get; set; }
-    }
-
-    public class UsersController : ApiControllerBase
-    {
-        [HttpPost]
-        public async Task<ActionResult<UserDto>> Post([FromBody] UserRegisterDto user)
-        {
-            throw new NotImplementedException();
-        }
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Post([FromBody] UserLoginDto user)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class UserController : ApiControllerBase
     {
-        [HttpGet]
-        public async Task<ActionResult<UserDto>> Get()
+        private readonly IBus _bus;
+        private readonly IUserMapper _mapper;
+        private readonly IUserRepository _repository;
+        private readonly IJwtTokenService _tokenService;
+
+        public UserController(IBus bus, IUserMapper mapper, IUserRepository repository, IJwtTokenService tokenService)
         {
-            throw new NotImplementedException();
+            _bus = bus;
+            _mapper = mapper;
+            _repository = repository;
+            _tokenService = tokenService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> Get(CancellationToken cancellationToken)
+        {
+            var username = User.FindFirst("sub")?.Value;
+            if (username == null)
+                return Forbid();
+
+            var user = await _repository.GetByUserNameAsync(username, cancellationToken);
+            _tokenService.PopulateToken(user);
+            return user;
         }
 
         [HttpPut]
-        public async Task<ActionResult<UserDto>> Put()
+        public async Task<ActionResult<UserDto>> Put(UserUpdateDto user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var username = User.FindFirst("sub")?.Value;
+            if (username == null)
+                return Forbid();
+
+            var updated = await _repository.GetByUserNameAsync(user.Username, cancellationToken);
+            _mapper.MapUser(user, updated);
+            updated = await _repository.UpdateAsync(user.Email, updated, cancellationToken);
+            await _repository.SetPassword(updated, user.Password, cancellationToken);
+            _tokenService.PopulateToken(updated);
+
+            return updated;
         }
     }
 }

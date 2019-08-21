@@ -9,5 +9,10 @@
         /// The JWT signing key
         /// </summary>
         public string Secret { get; set; }
+
+        /// <summary>
+        /// The JWT issuer
+        /// </summary>
+        public string Issuer { get; set; }
     }
 }

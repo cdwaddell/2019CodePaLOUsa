@@ -15,7 +15,9 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "MicroServicesDemo.Web", "Mi
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{70537D9A-09F4-4481-AA70-22416E5E1001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroServicesDemo.Tests", "MicroServicesDemo.Tests\MicroServicesDemo.Tests.csproj", "{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroServicesDemo.Tests", "MicroServicesDemo.Tests\MicroServicesDemo.Tests.csproj", "{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorApi", "ErrorApi\ErrorApi.csproj", "{03903165-0D91-49F8-89B7-7857BAD984CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF99246E-DAAC-4F9B-86F3-AF08DAC94FBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03903165-0D91-49F8-89B7-7857BAD984CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03903165-0D91-49F8-89B7-7857BAD984CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03903165-0D91-49F8-89B7-7857BAD984CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03903165-0D91-49F8-89B7-7857BAD984CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
