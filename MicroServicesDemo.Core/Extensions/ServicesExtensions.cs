@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -115,6 +116,7 @@ namespace MicroServicesDemo.Extensions
                         ValidateAudience = false
                     };
                 });
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             return services;
         }

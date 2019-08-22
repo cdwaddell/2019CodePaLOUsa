@@ -30,7 +30,7 @@ namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
         }
 
         [HttpGet]
-        public async Task<ActionResult<UserDto>> Get(CancellationToken cancellationToken)
+        public async Task<ActionResult<UserContainerDto<UserDto>>> Get(CancellationToken cancellationToken)
         {
             var username = User.FindFirst("sub")?.Value;
             if (username == null)
@@ -38,11 +38,13 @@ namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
 
             var user = await _repository.GetByUserNameAsync(username, cancellationToken);
             _tokenService.PopulateToken(user);
-            return user;
+            return new UserContainerDto<UserDto>{
+                User = user
+            };
         }
 
         [HttpPut]
-        public async Task<ActionResult<UserDto>> Put(UserUpdateDto user, CancellationToken cancellationToken)
+        public async Task<ActionResult<UserContainerDto<UserDto>>> Put(UserUpdateDto user, CancellationToken cancellationToken)
         {
             var username = User.FindFirst("sub")?.Value;
             if (username == null)
@@ -55,8 +57,10 @@ namespace MicroServiceDemo.Api.Auth.Controllers.API.V1
             _tokenService.PopulateToken(updated);
 
             _bus.SendUpdate(updated);
-
-            return updated;
+            
+            return new UserContainerDto<UserDto>{
+                User = updated
+            };
         }
     }
 }

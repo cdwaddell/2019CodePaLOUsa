@@ -67,12 +67,14 @@ namespace MicroServiceDemo.Api.Auth
 
             var appSettingsSection = Configuration.GetSection(nameof(AppSettings));
             services.Configure<AppSettings>(appSettingsSection);
-            services.Configure<RabbitMqSettings>(Configuration.GetSection(nameof(RabbitMqSettings)));
+
             services.RegisterEventBus(Configuration);
+            var rabbitSection = Configuration.GetSection(nameof(RabbitMqSettings));
+            services.Configure<RabbitMqSettings>(rabbitSection);
 
             services.AddSingleton(c =>
             {
-                var settings = c.GetService<RabbitMqSettings>();
+                var settings = rabbitSection.Get<RabbitMqSettings>();
 
                 var factory = new ConnectionFactory
                 {

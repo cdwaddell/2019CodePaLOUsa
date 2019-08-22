@@ -1,4 +1,7 @@
-﻿using MicroServiceDemo.Api.Comments.Abstractions;
+﻿using System;
+using MicroServiceDemo.Api.Blog.Bus;
+using MicroServiceDemo.Api.Blog.Models;
+using MicroServiceDemo.Api.Comments.Abstractions;
 using MicroServiceDemo.Api.Comments.Data;
 using MicroServicesDemo.Extensions;
 using MicroServicesDemo.Logging;
@@ -9,8 +12,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using RabbitMQ.Client;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace MicroServiceDemo.Api.Comments
 {
@@ -50,9 +56,40 @@ namespace MicroServiceDemo.Api.Comments
             services.AddApplicationInsightsTelemetry();
 
             services.AddEntityFramework<IBlogDbContext, BlogDbContext>(Configuration);
+            services.AddSingleton<IHostedService, UserUpdateReceiver>();
 
             services.Configure<SwaggerSettings>(Configuration.GetSection(nameof(SwaggerSettings)));
             services.Configure<ApplicationMetadata>(Configuration.GetSection(nameof(ApplicationMetadata)));
+            
+            var rabbitSection = Configuration.GetSection(nameof(RabbitMqSettings));
+            services.Configure<RabbitMqSettings>(rabbitSection);
+            services.AddSingleton(c =>
+            {
+                var settings = rabbitSection.Get<RabbitMqSettings>();
+
+                var factory = new ConnectionFactory
+                {
+                    HostName = settings.HostName,
+                    Port = settings.Port,
+                    UserName = settings.UserName,
+                    Password = settings.Password,
+
+                    AutomaticRecoveryEnabled = true,
+                    RequestedConnectionTimeout = 5000,
+                    TopologyRecoveryEnabled = true,
+                    SocketReadTimeout = 10000,
+                    SocketWriteTimeout = 10000,
+                    ContinuationTimeout = TimeSpan.FromSeconds(10)
+                };
+
+                return factory;
+            });
+
+            services.AddSingleton(c =>
+            {
+                var factory = c.GetService<ConnectionFactory>();
+                return factory.CreateConnection();
+            });
 
             var appSettingsSection = Configuration.GetSection(nameof(AppSettings));
             services.Configure<AppSettings>(appSettingsSection);

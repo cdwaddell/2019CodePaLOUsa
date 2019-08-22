@@ -14,15 +14,16 @@ export const ApiService = {
 
   setHeader() {
     var token = JwtService.getToken();
+    var bearer = "Bearer";
     ArticlesService.instance.defaults.headers.common[
       "Authorization"
-    ] = `Token ${token}`;
+    ] = `${bearer} ${token}`;
     CommentsService.instance.defaults.headers.common[
       "Authorization"
-    ] = `Token ${token}`;
+    ] = `${bearer} ${token}`;
     AuthService.instance.defaults.headers.common[
       "Authorization"
-    ] = `Token ${token}`;
+    ] = `${bearer} ${token}`;
   },
 
   query(instance, resource, params) {
@@ -61,8 +62,7 @@ export const ArticlesService = {
 
   init(url) {
     this.instance = axios.create({
-      baseURL: url,
-      headers: { "X-Custom-Header": "foobar" }
+      baseURL: url
     });
     axiosRetry(this.instance, { retries: 3, shouldResetTimeout: true, retryDelay: axiosRetry.exponentialDelay });
   },
@@ -127,8 +127,7 @@ export const CommentsService = {
 
   init(url) {
     this.instance = axios.create({
-      baseURL: url,
-      headers: { "X-Custom-Header": "foobar" }
+      baseURL: url
     });
     axiosRetry(this.instance, { retries: 3, shouldResetTimeout: true, retryDelay: axiosRetry.exponentialDelay });
   },
@@ -161,8 +160,7 @@ export const AuthService = {
 
   init(url) {
     this.instance = axios.create({
-      baseURL: url,
-      headers: { "X-Custom-Header": "foobar" }
+      baseURL: url
     });
     axiosRetry(this.instance, { retries: 3, shouldResetTimeout: true, retryDelay: axiosRetry.exponentialDelay });
   },

@@ -1,9 +1,11 @@
-﻿namespace MicroServiceDemo.Api.Blog.Models
+﻿using MicroServicesDemo.DataContracts;
+
+namespace MicroServiceDemo.Api.Blog.Models
 {
     /// <summary>
     /// A blog user
     /// </summary>
-    public class UserDto
+    public class UserDto: IBlogTransportUser
     {
         /// <summary>
         /// The author's username

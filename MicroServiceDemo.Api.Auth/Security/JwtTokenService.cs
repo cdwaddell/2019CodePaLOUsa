@@ -1,4 +1,5 @@
-﻿using MicroServiceDemo.Api.Auth.Abstractions;
+﻿using System;
+using MicroServiceDemo.Api.Auth.Abstractions;
 using MicroServiceDemo.Api.Auth.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -23,27 +24,26 @@ namespace MicroServiceDemo.Api.Auth.Security
         {
             var appSettings = _appSettings.Value;
 
-            var claimsIdentity = new ClaimsIdentity(new List<Claim>
+            var tokenHandler = new JwtSecurityTokenHandler();
+            List<Claim> claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
-            }, "password");
-
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var securityTokenDescriptor = new SecurityTokenDescriptor
-            {
-                Audience = appSettings.Issuer,
-                Issuer = appSettings.Issuer,
-                Subject = claimsIdentity,
-                SigningCredentials = credentials
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var plainToken = tokenHandler.CreateToken(securityTokenDescriptor);
-
-            user.Token = tokenHandler.WriteToken(plainToken);
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Issuer = appSettings.Issuer,
+                IssuedAt = DateTime.UtcNow,
+                NotBefore = DateTime.UtcNow,
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var output = tokenHandler.WriteToken(token);
+            user.Token = output;
         }
     }
 }

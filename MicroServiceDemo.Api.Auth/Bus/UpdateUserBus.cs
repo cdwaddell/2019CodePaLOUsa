@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using MicroServiceDemo.Api.Auth.Models;
+using MicroServicesDemo.Bus;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 
@@ -18,7 +19,7 @@ namespace MicroServiceDemo.Api.Auth.Bus
         {
             using(var channel = _connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "UserQueue",
+                channel.QueueDeclare(queue: BusConstants.BlogQueueName,
                     durable: true,
                     exclusive: false,
                     autoDelete: false,
@@ -30,8 +31,9 @@ namespace MicroServiceDemo.Api.Auth.Bus
                 var properties = channel.CreateBasicProperties();
                 properties.Persistent = true;
 
-                channel.BasicPublish(exchange: "",
-                    routingKey: "UserQueue",
+                channel.BasicPublish(
+                    exchange: BusConstants.EventQueueExchange,
+                    routingKey: BusConstants.BlogQueueName,
                     basicProperties: properties,
                     body: body);
             }

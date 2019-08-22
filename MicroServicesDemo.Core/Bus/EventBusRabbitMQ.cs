@@ -35,7 +35,7 @@ namespace MicroServicesDemo.Bus
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
-            _queueName = "UserQueue";
+            _queueName = BusConstants.BlogQueueName;
             _consumerChannel = CreateConsumerChannel();
             _retryCount = 5;
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;

@@ -29,7 +29,6 @@
   <ItemGroup>
     <Folder Include="Cache\" />
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Mapping\" />
     <Folder Include="Security\" />
   </ItemGroup>
 

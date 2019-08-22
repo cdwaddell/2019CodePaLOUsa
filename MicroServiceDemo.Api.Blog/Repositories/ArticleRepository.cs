@@ -188,7 +188,8 @@ namespace MicroServiceDemo.Api.Blog.Repositories
         {
             return _context.Articles
                 .Include(x => x.ArticleTags)
-                .ThenInclude(x => x.Tag);
+                .ThenInclude(x => x.Tag)
+                .Include(x => x.Author);
         }
     }
 }

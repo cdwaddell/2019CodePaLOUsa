@@ -1,5 +1,7 @@
 ﻿using System;
+using MicroServiceDemo.Api.Auth.Bus;
 using MicroServiceDemo.Api.Blog.Abstractions;
+using MicroServiceDemo.Api.Blog.Bus;
 using MicroServiceDemo.Api.Blog.Data;
 using MicroServiceDemo.Api.Blog.Models;
 using MicroServiceDemo.Api.Blog.Security;
@@ -12,9 +14,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using RabbitMQ.Client;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace MicroServiceDemo.Api.Blog
 {
@@ -56,15 +60,18 @@ namespace MicroServiceDemo.Api.Blog
             services.AddEntityFramework<IBlogDbContext, BlogDbContext>(Configuration);
 
             services.AddSingleton<UserPrincipalAccessor>();
+            services.AddSingleton<IHostedService, UserUpdateReceiver>();
+            services.AddSingleton<IUpdateUserBus, UpdateUserBus>();
 
             services.Configure<SwaggerSettings>(Configuration.GetSection(nameof(SwaggerSettings)));
             services.Configure<ApplicationMetadata>(Configuration.GetSection(nameof(ApplicationMetadata)));
-            services.Configure<RabbitMqSettings>(Configuration.GetSection(nameof(RabbitMqSettings)));
             services.RegisterEventBus(Configuration);
-
+            
+            var rabbitSection = Configuration.GetSection(nameof(RabbitMqSettings));
+            services.Configure<RabbitMqSettings>(rabbitSection);
             services.AddSingleton(c =>
             {
-                var settings = c.GetService<RabbitMqSettings>();
+                var settings = rabbitSection.Get<RabbitMqSettings>();
 
                 var factory = new ConnectionFactory
                 {

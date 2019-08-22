@@ -1,7 +1,7 @@
 ﻿namespace MicroServiceDemo.Api.Auth.Models
 {
-    public class UserContainerDto
+    public class UserContainerDto<T> where T: SimpleUserBaseDto
     {
-        public SimpleUserBaseDto User { get; set; }
+        public T User { get; set; }
     }
 }

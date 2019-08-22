@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: MicroServiceDemo.Api.Blog/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
     ports:
       - "5001:80"
 
@@ -14,6 +16,8 @@ services:
     build:
       context: .
       dockerfile: MicroServiceDemo.Api.Comments/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
     ports:
       - "5002:80"
 
@@ -23,8 +27,7 @@ services:
       context: .
       dockerfile: MicroServiceDemo.Api.Auth/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_RabbitMq__HostName=rabbitmq
+      - ASPNETCORE_ENVIRONMENT=Staging
     ports:
       - "5003:80"
 
@@ -36,9 +39,8 @@ services:
     ports:
       - "14433:1433"
 
-  rabbitmq:
+  bus:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
-    hostname: rabbitmq

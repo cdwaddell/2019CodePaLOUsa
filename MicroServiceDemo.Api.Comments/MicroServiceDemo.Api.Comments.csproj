@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\MicroServiceViewBlog.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\MicroServiceDemo.Api.Comments.xml</DocumentationFile>
     <ApplicationInsightsResourceId>/subscriptions/e23713fc-9487-4224-ad24-24aa5eff2258/resourcegroups/DotNetOnDraft/providers/microsoft.insights/components/DemoBlog</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/e23713fc-9487-4224-ad24-24aa5eff2258/resourcegroups/DotNetOnDraft/providers/microsoft.insights/components/DemoBlog</ApplicationInsightsAnnotationResourceId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -28,11 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Cache\" />
-    <Folder Include="Controllers\API\V1\" />
-    <Folder Include="Data\Entities\" />
-    <Folder Include="Data\Migrations\" />
     <Folder Include="Mapping\" />
-    <Folder Include="Models\" />
     <Folder Include="Repositories\" />
     <Folder Include="Security\" />
   </ItemGroup>

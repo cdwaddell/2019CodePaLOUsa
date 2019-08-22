@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using MicroServiceDemo.Api.Blog.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicroServiceDemo.Api.Comments.Abstractions
 {
@@ -14,5 +16,11 @@ namespace MicroServiceDemo.Api.Comments.Abstractions
         /// <param name="cancellationToken"></param>
         /// <returns>The number of rows affected</returns>
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+        DbSet<User> Users { get; set; }
+
+        DbSet<Comment> Comments { get; set; }
+
+        int SaveChanges();
     }
 }
